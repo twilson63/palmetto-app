@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tap test",
     "start": "iojs server.js",
-    "watch": "watchify app/index.js -o public/bundle.js"
+    "watch": "watchify app/index.js -o public/bundle.js",
+    "postinstall": "mkdir db"
   },
   "author": "Tom",
   "license": "MIT",

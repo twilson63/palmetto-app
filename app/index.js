@@ -4,12 +4,15 @@ var page = require('page');
 // set default redirect
 page.redirect('/', pkg.config.ref);
 
+var state = { title: pkg.config.title };
+
+if (window.location.pathname !== '/') {
+  state.ref = window.location.pathname;
+}
+
 require('pfc-app')({
   flow: require('pfc-pouchdb'),
-  state: {
-    title: pkg.config.title,
-    ref: pkg.config.ref
-  },
+  state: state,
   services: require('./services'),
   components: require('./components'),
   render: require('./render'),

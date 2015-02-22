@@ -12,12 +12,15 @@ var page = require('page');
 // set default redirect
 page.redirect('/', pkg.config.ref);
 
+var state = { title: pkg.config.title };
+
+if (window.location.pathname !== '/') {
+  state.ref = window.location.pathname;
+}
+
 require('pfc-app')({
   flow: require('pfc-pouchdb'),
-  state: {
-    title: pkg.config.title,
-    ref: pkg.config.ref
-  },
+  state: state,
   services: require('./services'),
   components: require('./components'),
   render: require('./render'),
@@ -21635,7 +21638,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],"/Users/twilson631/lab/palmetto-app/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports={
   "name": "palmetto-app",
   "version": "1.0.0",
   "description": "Palmetto App Demo",
@@ -21643,7 +21646,8 @@ module.exports=module.exports=module.exports=module.exports=module.exports=modul
   "scripts": {
     "test": "tap test",
     "start": "iojs server.js",
-    "watch": "watchify app/index.js -o public/bundle.js"
+    "watch": "watchify app/index.js -o public/bundle.js",
+    "postinstall": "mkdir db"
   },
   "author": "Tom",
   "license": "MIT",
