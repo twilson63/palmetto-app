@@ -7,22 +7,23 @@ module.exports = [
 ];
 },{"auth":"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/index.js","auth/login":"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/login.js","home":"/Users/twilson631/lab/palmetto-app/app/node_modules/home/index.js"}],"/Users/twilson631/lab/palmetto-app/app/index.js":[function(require,module,exports){
 var pkg = require('../package.json');
+var page = require('page');
 
-var ref = window.location.pathname;
-if (ref === '/') { ref = pkg.config.ref; }
+// set default redirect
+page.redirect('/', pkg.config.ref);
 
 require('pfc-app')({
   flow: require('pfc-pouchdb'),
   state: {
     title: pkg.config.title,
-    ref: ref
+    ref: pkg.config.ref
   },
   services: require('./services'),
   components: require('./components'),
   render: require('./render'),
   routes: require('./routes')
 });
-},{"../package.json":"/Users/twilson631/lab/palmetto-app/package.json","./components":"/Users/twilson631/lab/palmetto-app/app/components.js","./render":"/Users/twilson631/lab/palmetto-app/app/render.js","./routes":"/Users/twilson631/lab/palmetto-app/app/routes.js","./services":"/Users/twilson631/lab/palmetto-app/app/services.js","pfc-app":"/Users/twilson631/lab/palmetto-app/app/node_modules/pfc-app/index.js","pfc-pouchdb":"/Users/twilson631/lab/palmetto-app/app/node_modules/pfc-pouchdb/index.js"}],"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/index.js":[function(require,module,exports){
+},{"../package.json":"/Users/twilson631/lab/palmetto-app/package.json","./components":"/Users/twilson631/lab/palmetto-app/app/components.js","./render":"/Users/twilson631/lab/palmetto-app/app/render.js","./routes":"/Users/twilson631/lab/palmetto-app/app/routes.js","./services":"/Users/twilson631/lab/palmetto-app/app/services.js","page":"/Users/twilson631/lab/palmetto-app/node_modules/page/index.js","pfc-app":"/Users/twilson631/lab/palmetto-app/app/node_modules/pfc-app/index.js","pfc-pouchdb":"/Users/twilson631/lab/palmetto-app/app/node_modules/pfc-pouchdb/index.js"}],"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/index.js":[function(require,module,exports){
 var h = require('virtual-dom/h');
 
 auth.ref = 'auth';
@@ -127,7 +128,7 @@ var systemId = window.localStorage.getItem('systemId') || uuid.v4();
 window.localStorage.setItem('systemId', systemId);
 
 // TODO Store seq id in localhost
-
+console.log('run only once');
 stream.changes({
   include_docs: true,
   since: 'now', // this should be last seq id
@@ -151,14 +152,19 @@ var h = require('virtual-dom/h');
 
 module.exports = function(components) {
   return function render(state) {
+    var content = null;
+    var ref = state.get('ref');
+    
+    if (ref && components[ref]) {
+      content = components[ref](state);
+    }
+
     return h('div', [
       h('header.container', [
         components['auth'](state),
         h('h1.title', [state.get('title')])
       ]),
-      h('.container', [
-        components[state.get('ref')](state)
-      ])
+      h('.container', [content])
     ]);
   }
 }
@@ -21629,7 +21635,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],"/Users/twilson631/lab/palmetto-app/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "palmetto-app",
   "version": "1.0.0",
   "description": "Palmetto App Demo",
