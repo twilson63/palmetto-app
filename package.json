@@ -28,7 +28,7 @@
   },
   "config": {
     "title": "devbase",
-    "ref": "login",
+    "ref": "/login",
     "components": [
       "profile/new",
       "profile/show",

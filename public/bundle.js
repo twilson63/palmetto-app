@@ -8,11 +8,14 @@ module.exports = [
 },{"auth":"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/index.js","auth/login":"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/login.js","home":"/Users/twilson631/lab/palmetto-app/app/node_modules/home/index.js"}],"/Users/twilson631/lab/palmetto-app/app/index.js":[function(require,module,exports){
 var pkg = require('../package.json');
 
+var ref = window.location.pathname;
+if (ref === '/') { ref = pkg.config.ref; }
+
 require('pfc-app')({
   flow: require('pfc-pouchdb'),
   state: {
     title: pkg.config.title,
-    ref: pkg.config.ref
+    ref: ref
   },
   services: require('./services'),
   components: require('./components'),
@@ -36,13 +39,13 @@ function render(state) {
 },{"virtual-dom/h":"/Users/twilson631/lab/palmetto-app/node_modules/virtual-dom/h.js"}],"/Users/twilson631/lab/palmetto-app/app/node_modules/auth/login.js":[function(require,module,exports){
 var h = require('virtual-dom/h');
 
-login.ref = 'login';
+login.ref = '/login';
 login.render = render;
 module.exports = login;
 
 function login(state, ee) {
   ee.on('/login', function() {
-    state.set('ref', 'login');
+    state.set('ref', '/login');
   });
 }
 
@@ -62,13 +65,13 @@ function session(ee) {
 },{}],"/Users/twilson631/lab/palmetto-app/app/node_modules/home/index.js":[function(require,module,exports){
 var h = require('virtual-dom/h');
 
-home.ref = 'home';
+home.ref = '/home';
 home.render = render;
 module.exports = home;
 
 function home(state, ee) {
   ee.on('/home', function() {
-    state.set('ref', 'home');
+    state.set('ref', '/home');
   });
 }
 
@@ -21626,7 +21629,7 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],"/Users/twilson631/lab/palmetto-app/package.json":[function(require,module,exports){
-module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "palmetto-app",
   "version": "1.0.0",
   "description": "Palmetto App Demo",
@@ -21656,7 +21659,7 @@ module.exports={
   },
   "config": {
     "title": "devbase",
-    "ref": "login",
+    "ref": "/login",
     "components": [
       "profile/new",
       "profile/show",
